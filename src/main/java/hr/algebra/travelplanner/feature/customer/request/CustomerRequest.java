@@ -8,6 +8,7 @@ public class CustomerRequest {
 
   @NotBlank private String name;
   @NotBlank private String surname;
+  @NotBlank private String username;
   @NotBlank private String email;
   @NotBlank private String password;
 }

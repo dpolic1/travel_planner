@@ -23,7 +23,7 @@ public class AuthenticationService {
   public LoginResponse login(LoginRequest request) {
     Customer customer =
         customerRepository
-            .findByEmail(request.getEmail())
+            .findByUsername(request.getUsername())
             .orElseThrow(
                 () ->
                     new ResponseStatusException(
@@ -46,6 +46,7 @@ public class AuthenticationService {
       Customer newCustomer = new Customer();
       newCustomer.setName(request.getName());
       newCustomer.setSurname(request.getSurname());
+      newCustomer.setUsername(request.getUsername());
       newCustomer.setEmail(request.getEmail());
       newCustomer.setPassword(new BCryptPasswordEncoder().encode(request.getPassword()));
       newCustomer.getRoles().add(roleRepository.findByName("ROLE_USER"));
