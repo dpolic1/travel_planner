@@ -15,4 +15,8 @@ public class CityService {
   public List<City> getAllCities() {
     return cityRepository.findAll();
   }
+
+  public List<City> getAllCitiesByCountryId(Integer countryId) {
+    return cityRepository.findAllByCountryId(countryId);
+  }
 }

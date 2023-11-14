@@ -18,4 +18,9 @@ public class CustomerController {
   public List<Customer> getAllUsers() {
     return customerService.getAllUsers();
   }
+
+  @GetMapping("/getMyId")
+  public Integer getMyId(@RequestHeader("Authorization") String token) {
+    return customerService.getUserIDWithToken(token);
+  }
 }

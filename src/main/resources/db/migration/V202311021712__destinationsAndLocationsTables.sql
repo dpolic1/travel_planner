@@ -20,7 +20,7 @@ CREATE TABLE locations(
     destination_id BIGINT NOT NULL,
     city_id BIGINT,
     specific_location_id BIGINT,
-    accommodation_type VARCHAR(255) NOT NULL,
+    paid_accommodation BOOLEAN NOT NULL,
     accommodation_id BIGINT,
     FOREIGN KEY (destination_id) REFERENCES destinations (id),
     FOREIGN KEY (city_id) REFERENCES cities (id),

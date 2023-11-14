@@ -15,4 +15,8 @@ public class AccommodationService {
   public List<Accommodation> getAllAccomodations() {
     return accommodationRepository.findAll();
   }
+
+  public List<Accommodation> findAccommodationsByCityId(Integer cityId) {
+    return accommodationRepository.findAccommodationsByCityId(cityId);
+  }
 }

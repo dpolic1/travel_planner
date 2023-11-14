@@ -14,4 +14,8 @@ public class SpecificLocationService {
   public List<SpecificLocation> getAllSpecificLocations() {
     return specificLocationRepository.findAll();
   }
+
+    public List<SpecificLocation> getAllSpecificLocationsByCountryId(Integer countryId) {
+        return specificLocationRepository.findAllByCountryId(countryId);
+    }
 }

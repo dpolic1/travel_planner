@@ -16,4 +16,9 @@ public class SpecificLocationController {
   public List<SpecificLocation> getAllSpecificLocations() {
     return specificLocationService.getAllSpecificLocations();
   }
+
+  @GetMapping("/country/{countryId}")
+  public List<SpecificLocation> getAllSpecificLocationsByCountryId(Integer countryId) {
+    return specificLocationService.getAllSpecificLocationsByCountryId(countryId);
+  }
 }

@@ -5,7 +5,13 @@ import hr.algebra.travelplanner.feature.role.Role;
 import hr.algebra.travelplanner.feature.trip.Trip;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +20,7 @@ import java.util.Set;
 @Table(name = "customers")
 @Data
 public class Customer {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
@@ -31,11 +38,13 @@ public class Customer {
   @OneToMany(mappedBy = "customer")
   private List<Trip> trips;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JsonIgnore
   @JoinTable(
       name = "customers_roles",
       joinColumns = {@JoinColumn(name = "customer_id")},
       inverseJoinColumns = {@JoinColumn(name = "role_id")})
   private Set<Role> roles = new HashSet<>();
+
+  @Transient private List<SimpleGrantedAuthority> authorities;
 }

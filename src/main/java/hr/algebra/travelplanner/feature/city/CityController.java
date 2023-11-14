@@ -16,4 +16,11 @@ public class CityController {
   public List<City> getAllCities() {
     return cityService.getAllCities();
   }
+
+  @GetMapping("/country/{countryId}")
+    public List<City> getAllCitiesByCountryId(Integer countryId) {
+        return cityService.getAllCitiesByCountryId(countryId);
+    }
+
+
 }

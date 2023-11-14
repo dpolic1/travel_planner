@@ -1,13 +1,15 @@
 package hr.algebra.travelplanner.authentication.jwt;
 
-import hr.algebra.travelplanner.authentication.app_user.ApplicationUser;
-import hr.algebra.travelplanner.authentication.app_user.UserAuthentication;
 import hr.algebra.travelplanner.feature.customer.Customer;
+import hr.algebra.travelplanner.feature.customer.CustomerRepository;
 import hr.algebra.travelplanner.feature.role.Role;
 import io.jsonwebtoken.*;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
   private static final Logger log = LoggerFactory.getLogger(JwtService.class);
   private static final String AUTHORITIES_KEY = "authorities";
@@ -30,6 +33,8 @@ public class JwtService {
   @Value("${security.authentication.jwt.base64-secret}")
   private String secretKey;
 
+  private final CustomerRepository customerRepository;
+
   public boolean authenticate(String token) {
     // If JWT is invalid, user can not be authenticated
     if (isJwtInvalid(token)) {
@@ -37,7 +42,7 @@ public class JwtService {
     }
 
     // JWT is valid, store authentication in Spring security context
-    ApplicationUser applicationUser = getUserDataFromJwt(token);
+    Customer applicationUser = getUserDataFromJwt(token);
     saveAuthentication(applicationUser);
 
     return true;
@@ -51,9 +56,10 @@ public class JwtService {
     return Jwts.builder()
         .signWith(SignatureAlgorithm.HS512, secretKey)
         .setSubject(jwtCustomer.getName())
+        .claim("id", jwtCustomer.getId())
+        .claim(AUTHORITIES_KEY, authorities)
         .setExpiration(new Date(expiration.toEpochMilli()))
         .setIssuedAt(new Date())
-        .claim(AUTHORITIES_KEY, authorities)
         .compact();
   }
 
@@ -80,7 +86,7 @@ public class JwtService {
     return true;
   }
 
-  private ApplicationUser getUserDataFromJwt(String jwtToken) {
+  public Customer getUserDataFromJwt(String jwtToken) {
     Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken).getBody();
 
     List<SimpleGrantedAuthority> authorities =
@@ -88,15 +94,18 @@ public class JwtService {
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toList());
 
-    ApplicationUser applicationUser = new ApplicationUser();
-    applicationUser.setUsername(claims.getSubject());
-    applicationUser.setAuthorities(authorities);
-
-    return applicationUser;
+    Customer customer = customerRepository.findById(Integer.valueOf(claims.get("id").toString())).orElseThrow();
+    customer.setTrips(null);
+    return customer;
   }
 
-  private void saveAuthentication(ApplicationUser applicationUser) {
-    Authentication authentication = new UserAuthentication(applicationUser);
+  public Integer getUserIdFromJwt(String jwtToken) {
+    Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken).getBody();
+    return Integer.valueOf(claims.get("id").toString());
+  }
+
+  private void saveAuthentication(Customer applicationUser) {
+    Authentication authentication = new UsernamePasswordAuthenticationToken(applicationUser, null, applicationUser.getAuthorities());
     SecurityContextHolder.getContext().setAuthentication(authentication);
   }
 }
