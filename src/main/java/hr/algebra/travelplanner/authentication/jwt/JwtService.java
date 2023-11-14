@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class JwtService {
   private static final Logger log = LoggerFactory.getLogger(JwtService.class);
-  private static final String AUTHORITIES_KEY = "authorities";
 
   @Value("604800")
   private Long accessTokenValiditySeconds;
@@ -40,8 +39,7 @@ public class JwtService {
     if (isJwtInvalid(token)) {
       return false;
     }
-
-    // JWT is valid, store authentication in Spring security context
+    // If JWT is valid, store authentication in Spring security context
     Customer applicationUser = getUserDataFromJwt(token);
     saveAuthentication(applicationUser);
 
@@ -57,7 +55,7 @@ public class JwtService {
         .signWith(SignatureAlgorithm.HS512, secretKey)
         .setSubject(jwtCustomer.getName())
         .claim("id", jwtCustomer.getId())
-        .claim(AUTHORITIES_KEY, authorities)
+        .claim("authorities", authorities)
         .setExpiration(new Date(expiration.toEpochMilli()))
         .setIssuedAt(new Date())
         .compact();
@@ -90,12 +88,16 @@ public class JwtService {
     Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken).getBody();
 
     List<SimpleGrantedAuthority> authorities =
-        Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+        Arrays.stream(claims.get("authorities").toString().split(","))
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toList());
 
-    Customer customer = customerRepository.findById(Integer.valueOf(claims.get("id").toString())).orElseThrow();
+    Customer customer =
+        customerRepository
+            .findById(Integer.valueOf(claims.get("id").toString()))
+            .orElseThrow(() -> new RuntimeException("User not found from JWT"));
     customer.setTrips(null);
+    customer.setAuthorities(authorities);
     return customer;
   }
 
@@ -105,7 +107,9 @@ public class JwtService {
   }
 
   private void saveAuthentication(Customer applicationUser) {
-    Authentication authentication = new UsernamePasswordAuthenticationToken(applicationUser, null, applicationUser.getAuthorities());
+    Authentication authentication =
+        new UsernamePasswordAuthenticationToken(
+            applicationUser, null, applicationUser.getAuthorities());
     SecurityContextHolder.getContext().setAuthentication(authentication);
   }
 }

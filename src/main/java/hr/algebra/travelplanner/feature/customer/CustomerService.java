@@ -20,4 +20,9 @@ public class CustomerService {
   public Integer getUserIDWithToken(String token) {
     return jwtService.getUserIdFromJwt(token);
   }
+
+  public Customer getUserDataWithToken(String token) {
+    Integer customerId =  jwtService.getUserIdFromJwt(token);
+    return customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("User not found"));
+  }
 }

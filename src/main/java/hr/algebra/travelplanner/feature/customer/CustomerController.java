@@ -19,8 +19,13 @@ public class CustomerController {
     return customerService.getAllUsers();
   }
 
-  @GetMapping("/getMyId")
-  public Integer getMyId(@RequestHeader("Authorization") String token) {
+  @GetMapping("/currentuserid")
+  public Integer getCurrentUserId(@RequestHeader("Authorization") String token) {
     return customerService.getUserIDWithToken(token);
+  }
+
+  @GetMapping("/currentuser")
+  public Customer getCurrentUser(@RequestHeader("Authorization") String token) {
+    return customerService.getUserDataWithToken(token);
   }
 }
