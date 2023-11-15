@@ -2,6 +2,7 @@ package hr.algebra.travelplanner.feature.role;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @Table(name = "roles")

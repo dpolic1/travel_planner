@@ -45,6 +45,4 @@ public class Customer {
       joinColumns = {@JoinColumn(name = "customer_id")},
       inverseJoinColumns = {@JoinColumn(name = "role_id")})
   private Set<Role> roles = new HashSet<>();
-
-  @Transient private List<SimpleGrantedAuthority> authorities;
 }

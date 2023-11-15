@@ -1,12 +1,12 @@
-package hr.algebra.travelplanner.authentication;
+package hr.algebra.travelplanner.feature.authentication;
 
+import hr.algebra.travelplanner.feature.authentication.jwt.JwtService;
 import hr.algebra.travelplanner.feature.customer.Customer;
 import hr.algebra.travelplanner.feature.customer.CustomerRepository;
 import hr.algebra.travelplanner.feature.customer.request.LoginRequest;
 import hr.algebra.travelplanner.feature.customer.request.RegisterRequest;
 import hr.algebra.travelplanner.feature.customer.response.LoginResponse;
 import hr.algebra.travelplanner.feature.role.RoleRepository;
-import hr.algebra.travelplanner.authentication.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

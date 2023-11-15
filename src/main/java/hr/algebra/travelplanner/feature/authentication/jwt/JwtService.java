@@ -1,4 +1,4 @@
-package hr.algebra.travelplanner.authentication.jwt;
+package hr.algebra.travelplanner.feature.authentication.jwt;
 
 import hr.algebra.travelplanner.feature.customer.Customer;
 import hr.algebra.travelplanner.feature.customer.CustomerRepository;
@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -47,16 +46,15 @@ public class JwtService {
   }
 
   public String createJwt(Customer jwtCustomer) {
-    Instant expiration = Instant.now().plusSeconds(accessTokenValiditySeconds);
-    String authorities =
+    String roles =
         jwtCustomer.getRoles().stream().map(Role::getName).collect(Collectors.joining(","));
 
     return Jwts.builder()
         .signWith(SignatureAlgorithm.HS512, secretKey)
         .setSubject(jwtCustomer.getName())
         .claim("id", jwtCustomer.getId())
-        .claim("authorities", authorities)
-        .setExpiration(new Date(expiration.toEpochMilli()))
+        .claim("roles", roles)
+        .setExpiration(new Date(Instant.now().plusSeconds(accessTokenValiditySeconds).toEpochMilli()))
         .setIssuedAt(new Date())
         .compact();
   }
@@ -87,17 +85,11 @@ public class JwtService {
   public Customer getUserDataFromJwt(String jwtToken) {
     Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken).getBody();
 
-    List<SimpleGrantedAuthority> authorities =
-        Arrays.stream(claims.get("authorities").toString().split(","))
-            .map(SimpleGrantedAuthority::new)
-            .collect(Collectors.toList());
-
     Customer customer =
         customerRepository
             .findById(Integer.valueOf(claims.get("id").toString()))
             .orElseThrow(() -> new RuntimeException("User not found from JWT"));
     customer.setTrips(null);
-    customer.setAuthorities(authorities);
     return customer;
   }
 
@@ -106,10 +98,21 @@ public class JwtService {
     return Integer.valueOf(claims.get("id").toString());
   }
 
+  public List<String> getUserRolesFromJwt(String jwtToken) {
+    Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken).getBody();
+    return Arrays.asList(claims.get("roles").toString().split(","));
+  }
+
   private void saveAuthentication(Customer applicationUser) {
+
+    List<SimpleGrantedAuthority> authorities =
+        applicationUser.getRoles().stream()
+            .map(role -> new SimpleGrantedAuthority(role.getName()))
+            .collect(Collectors.toList());
+
     Authentication authentication =
         new UsernamePasswordAuthenticationToken(
-            applicationUser, null, applicationUser.getAuthorities());
+            applicationUser, null, authorities);
     SecurityContextHolder.getContext().setAuthentication(authentication);
   }
 }
