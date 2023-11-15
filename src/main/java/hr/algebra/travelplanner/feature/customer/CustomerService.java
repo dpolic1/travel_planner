@@ -2,7 +2,9 @@ package hr.algebra.travelplanner.feature.customer;
 
 import hr.algebra.travelplanner.feature.authentication.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -16,6 +18,12 @@ public class CustomerService {
     return customerRepository.findAll();
   }
 
+  public Customer getUserById(Integer id) {
+    return customerRepository
+        .findById(id)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found"));
+  }
+
   public Integer getUserIdFromToken(String token) {
     return jwtService.getUserIdFromJwt(token);
   }
@@ -24,7 +32,7 @@ public class CustomerService {
     Integer customerId = jwtService.getUserIdFromJwt(token);
     return customerRepository
         .findById(customerId)
-        .orElseThrow(() -> new RuntimeException("User not found"));
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found"));
   }
 
   public List<String> getUserRolesFromToken(String token) {

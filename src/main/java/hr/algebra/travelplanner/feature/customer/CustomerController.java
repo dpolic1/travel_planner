@@ -19,6 +19,11 @@ public class CustomerController {
     return customerService.getAllUsers();
   }
 
+  @GetMapping("/{id}")
+  public Customer getUserById(@PathVariable Integer id) {
+    return customerService.getUserById(id);
+  }
+
   @GetMapping("/currentuserid")
   public Integer getCurrentUserId(@RequestHeader("Authorization") String token) {
     return customerService.getUserIdFromToken(token);
