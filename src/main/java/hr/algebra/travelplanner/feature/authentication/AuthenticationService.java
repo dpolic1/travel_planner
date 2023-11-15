@@ -20,6 +20,7 @@ import java.util.Set;
 public class AuthenticationService {
   private final CustomerRepository customerRepository;
   private final JwtService jwtService;
+  private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
   public LoginResponse login(LoginRequest request) {
     Customer customer =
@@ -28,18 +29,12 @@ public class AuthenticationService {
             .orElseThrow(
                 () ->
                     new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST, "Customer with the given email does not exist"));
+                        HttpStatus.BAD_REQUEST, "Customer with the given username does not exist"));
 
-    if (!isMatchingPassword(request.getPassword(), customer.getPassword())) {
+    if (!bCryptPasswordEncoder.matches(request.getPassword(), customer.getPassword())) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid password.");
     }
-
     return new LoginResponse(jwtService.createJwt(customer));
-  }
-
-  private boolean isMatchingPassword(String rawPassword, String encryptedPassword) {
-    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-    return bCryptPasswordEncoder.matches(rawPassword, encryptedPassword);
   }
 
   public void register(RegisterRequest request) {

@@ -30,14 +30,6 @@ public class Customer {
   @OneToMany(mappedBy = "customer")
   private List<Trip> trips;
 
-  //  @ManyToMany(fetch = FetchType.EAGER)
-  //  @JsonIgnore
-  //  @JoinTable(
-  //      name = "customers_roles",
-  //      joinColumns = {@JoinColumn(name = "customer_id")},
-  //      inverseJoinColumns = {@JoinColumn(name = "role_id")})
-  //  private Set<Role> roles = new HashSet<>();
-
   @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
   @CollectionTable(name = "customers_roles", joinColumns = @JoinColumn(name = "customer_id"))
   @Column(name = "role", nullable = false)
