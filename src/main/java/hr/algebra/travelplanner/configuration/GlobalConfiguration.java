@@ -1,4 +1,4 @@
-package hr.algebra.travelplanner.feature.authentication.config;
+package hr.algebra.travelplanner.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
