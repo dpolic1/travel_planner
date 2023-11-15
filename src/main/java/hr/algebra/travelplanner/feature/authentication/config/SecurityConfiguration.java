@@ -20,7 +20,7 @@ import java.util.List;
 public class SecurityConfiguration {
 
   public static final List<String> UNAUTHENTICATED_ENDPOINTS =
-      List.of("/auth/register", "/auth/login");
+      List.of("/auth/register", "/auth/login", "/auth/registeradmin");
 
   private final JwtFilter jwtFilter;
 

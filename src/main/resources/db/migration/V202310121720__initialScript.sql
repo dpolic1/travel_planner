@@ -7,17 +7,8 @@ CREATE TABLE customers (
     password VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE roles (
-    id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
-);
-
 CREATE TABLE customers_roles (
     customer_id BIGINT NOT NULL,
-    role_id BIGINT NOT NULL,
-    FOREIGN KEY (customer_id) REFERENCES customers (id),
-    FOREIGN KEY (role_id) REFERENCES roles (id)
+    role VARCHAR(100) NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customers (id)
 );
-
-INSERT INTO roles (name) VALUES ('ROLE_USER');
-INSERT INTO roles (name) VALUES ('ROLE_ADMIN');

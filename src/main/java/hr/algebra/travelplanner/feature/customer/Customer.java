@@ -1,17 +1,9 @@
 package hr.algebra.travelplanner.feature.customer;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import hr.algebra.travelplanner.feature.role.Role;
 import hr.algebra.travelplanner.feature.trip.Trip;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,11 +30,17 @@ public class Customer {
   @OneToMany(mappedBy = "customer")
   private List<Trip> trips;
 
-  @ManyToMany(fetch = FetchType.EAGER)
-  @JsonIgnore
-  @JoinTable(
-      name = "customers_roles",
-      joinColumns = {@JoinColumn(name = "customer_id")},
-      inverseJoinColumns = {@JoinColumn(name = "role_id")})
+  //  @ManyToMany(fetch = FetchType.EAGER)
+  //  @JsonIgnore
+  //  @JoinTable(
+  //      name = "customers_roles",
+  //      joinColumns = {@JoinColumn(name = "customer_id")},
+  //      inverseJoinColumns = {@JoinColumn(name = "role_id")})
+  //  private Set<Role> roles = new HashSet<>();
+
+  @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+  @CollectionTable(name = "customers_roles", joinColumns = @JoinColumn(name = "customer_id"))
+  @Column(name = "role", nullable = false)
+  @Enumerated(EnumType.STRING)
   private Set<Role> roles = new HashSet<>();
 }

@@ -6,18 +6,19 @@ import hr.algebra.travelplanner.feature.customer.CustomerRepository;
 import hr.algebra.travelplanner.feature.customer.request.LoginRequest;
 import hr.algebra.travelplanner.feature.customer.request.RegisterRequest;
 import hr.algebra.travelplanner.feature.customer.response.LoginResponse;
-import hr.algebra.travelplanner.feature.role.RoleRepository;
+import hr.algebra.travelplanner.feature.customer.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
   private final CustomerRepository customerRepository;
-  private final RoleRepository roleRepository;
   private final JwtService jwtService;
 
   public LoginResponse login(LoginRequest request) {
@@ -49,7 +50,22 @@ public class AuthenticationService {
       newCustomer.setUsername(request.getUsername());
       newCustomer.setEmail(request.getEmail());
       newCustomer.setPassword(new BCryptPasswordEncoder().encode(request.getPassword()));
-      newCustomer.getRoles().add(roleRepository.findByName("ROLE_USER"));
+      newCustomer.getRoles().add(Role.ROLE_USER);
+      customerRepository.save(newCustomer);
+    } catch (Exception e) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+    }
+  }
+
+  public void registerAdmin(RegisterRequest request) {
+    try {
+      Customer newCustomer = new Customer();
+      newCustomer.setName(request.getName());
+      newCustomer.setSurname(request.getSurname());
+      newCustomer.setUsername(request.getUsername());
+      newCustomer.setEmail(request.getEmail());
+      newCustomer.setPassword(new BCryptPasswordEncoder().encode(request.getPassword()));
+      newCustomer.getRoles().addAll(Set.of(Role.ROLE_USER, Role.ROLE_ADMIN));
       customerRepository.save(newCustomer);
     } catch (Exception e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

@@ -2,7 +2,7 @@ package hr.algebra.travelplanner.feature.authentication.jwt;
 
 import hr.algebra.travelplanner.feature.customer.Customer;
 import hr.algebra.travelplanner.feature.customer.CustomerRepository;
-import hr.algebra.travelplanner.feature.role.Role;
+import hr.algebra.travelplanner.feature.customer.Role;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -46,15 +46,15 @@ public class JwtService {
   }
 
   public String createJwt(Customer jwtCustomer) {
-    String roles =
-        jwtCustomer.getRoles().stream().map(Role::getName).collect(Collectors.joining(","));
+    String roles = jwtCustomer.getRoles().stream().map(Role::name).collect(Collectors.joining(","));
 
     return Jwts.builder()
         .signWith(SignatureAlgorithm.HS512, secretKey)
         .setSubject(jwtCustomer.getName())
         .claim("id", jwtCustomer.getId())
         .claim("roles", roles)
-        .setExpiration(new Date(Instant.now().plusSeconds(accessTokenValiditySeconds).toEpochMilli()))
+        .setExpiration(
+            new Date(Instant.now().plusSeconds(accessTokenValiditySeconds).toEpochMilli()))
         .setIssuedAt(new Date())
         .compact();
   }
@@ -107,12 +107,11 @@ public class JwtService {
 
     List<SimpleGrantedAuthority> authorities =
         applicationUser.getRoles().stream()
-            .map(role -> new SimpleGrantedAuthority(role.getName()))
+            .map(role -> new SimpleGrantedAuthority(role.name()))
             .collect(Collectors.toList());
 
     Authentication authentication =
-        new UsernamePasswordAuthenticationToken(
-            applicationUser, null, authorities);
+        new UsernamePasswordAuthenticationToken(applicationUser, null, authorities);
     SecurityContextHolder.getContext().setAuthentication(authentication);
   }
 }
