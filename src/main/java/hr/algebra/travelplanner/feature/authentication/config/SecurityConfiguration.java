@@ -29,6 +29,7 @@ public class SecurityConfiguration {
 
   public static final List<String> UNAUTHENTICATED_ENDPOINTS =
       List.of("/auth/register", "/auth/login", "/auth/registeradmin");
+  public static final List<String> ADMIN_ENDPOINTS = List.of();
 
   private final JwtFilter jwtFilter;
 
@@ -36,18 +37,17 @@ public class SecurityConfiguration {
   SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http.authorizeHttpRequests(
             auth -> {
-              //              auth.requestMatchers("/auth/login").permitAll();
-              //              auth.requestMatchers("/auth/register").permitAll();
               UNAUTHENTICATED_ENDPOINTS.forEach(
                   endpoint -> auth.requestMatchers(endpoint).permitAll());
 
-              auth.requestMatchers("/countries")
-                  .hasRole("ADMIN"); // TODO: remove later, this is for testing
+              ADMIN_ENDPOINTS.forEach(endpoint -> auth.requestMatchers(endpoint).hasRole("ADMIN"));
 
               auth.anyRequest().authenticated();
             })
         .csrf(csrf -> csrf.disable())
-        .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
+        .cors(
+            httpSecurityCorsConfigurer ->
+                httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
         .formLogin(
             login ->
                 login
@@ -65,8 +65,7 @@ public class SecurityConfiguration {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(
-        Arrays.asList("http://localhost:3000")); // Adjust the allowed origins
+    configuration.setAllowedOrigins(List.of("http://localhost:3000")); // Adjust the allowed origins
     configuration.setAllowedMethods(
         Arrays.asList(
             HttpMethod.GET.name(),
