@@ -1,4 +1,4 @@
-package hr.algebra.travelplanner.feature.authentication.jwt;
+package hr.algebra.travelplanner.authentication.jwt;
 
 import hr.algebra.travelplanner.feature.customer.Customer;
 import hr.algebra.travelplanner.feature.customer.CustomerRepository;
@@ -39,7 +39,7 @@ public class JwtService {
       return false;
     }
     // If JWT is valid, store authentication in Spring security context
-    Customer applicationUser = getUserDataFromJwt(token);
+    Customer applicationUser = getCustomerFromJwt(token);
     saveAuthentication(applicationUser);
 
     return true;
@@ -82,7 +82,7 @@ public class JwtService {
     return true;
   }
 
-  public Customer getUserDataFromJwt(String jwtToken) {
+  public Customer getCustomerFromJwt(String jwtToken) {
     Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken).getBody();
 
     Customer customer =
@@ -93,18 +93,22 @@ public class JwtService {
     return customer;
   }
 
-  public Integer getUserIdFromJwt(String jwtToken) {
+  public Integer getCustomerIdFromJwt(String jwtToken) {
     Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken).getBody();
     return Integer.valueOf(claims.get("id").toString());
   }
 
-  public List<String> getUserRolesFromJwt(String jwtToken) {
+  public List<String> getCustomerRolesFromJwt(String jwtToken) {
     Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken).getBody();
     return Arrays.asList(claims.get("roles").toString().split(","));
   }
 
-  private void saveAuthentication(Customer applicationUser) {
+  public String getUsernameFromJwt(String jwtToken) {
+    Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken).getBody();
+    return claims.getSubject();
+  }
 
+  private void saveAuthentication(Customer applicationUser) {
     List<SimpleGrantedAuthority> authorities =
         applicationUser.getRoles().stream()
             .map(role -> new SimpleGrantedAuthority(role.name()))

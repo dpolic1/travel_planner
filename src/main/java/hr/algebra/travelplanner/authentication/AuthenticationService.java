@@ -1,6 +1,6 @@
-package hr.algebra.travelplanner.feature.authentication;
+package hr.algebra.travelplanner.authentication;
 
-import hr.algebra.travelplanner.feature.authentication.jwt.JwtService;
+import hr.algebra.travelplanner.authentication.jwt.JwtService;
 import hr.algebra.travelplanner.feature.customer.Customer;
 import hr.algebra.travelplanner.feature.customer.CustomerRepository;
 import hr.algebra.travelplanner.feature.customer.request.LoginRequest;

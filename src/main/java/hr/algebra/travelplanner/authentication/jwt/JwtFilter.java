@@ -1,6 +1,6 @@
-package hr.algebra.travelplanner.feature.authentication.jwt;
+package hr.algebra.travelplanner.authentication.jwt;
 
-import hr.algebra.travelplanner.feature.authentication.config.SecurityConfiguration;
+import hr.algebra.travelplanner.authentication.config.SecurityConfiguration;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

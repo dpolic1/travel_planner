@@ -26,16 +26,16 @@ public class CustomerController {
 
   @GetMapping("/currentuserid")
   public Integer getCurrentUserId(@RequestHeader("Authorization") String token) {
-    return customerService.getUserIdFromToken(token);
+    return customerService.getCustomerIdFromToken(token);
   }
 
   @GetMapping("/currentuser")
   public Customer getCurrentUser(@RequestHeader("Authorization") String token) {
-    return customerService.getUserDataFromToken(token);
+    return customerService.getCustomerDataFromToken(token);
   }
 
   @GetMapping("/currentuserroles")
   public List<String> getCurrentUserRoles(@RequestHeader("Authorization") String token) {
-    return customerService.getUserRolesFromToken(token);
+    return customerService.getCustomerRolesFromToken(token);
   }
 }

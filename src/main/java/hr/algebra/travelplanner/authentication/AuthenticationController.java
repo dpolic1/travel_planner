@@ -1,4 +1,4 @@
-package hr.algebra.travelplanner.feature.authentication;
+package hr.algebra.travelplanner.authentication;
 
 import hr.algebra.travelplanner.feature.customer.request.LoginRequest;
 import hr.algebra.travelplanner.feature.customer.request.RegisterRequest;
