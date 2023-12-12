@@ -1,4 +1,4 @@
-package hr.algebra.travelplanner.authentication.config;
+package hr.algebra.travelplanner.authentication.configuration;
 
 import hr.algebra.travelplanner.authentication.jwt.JwtFilter;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ import java.util.List;
 public class SecurityConfiguration {
 
   public static final List<String> UNAUTHENTICATED_ENDPOINTS =
-      List.of("/auth/register", "/auth/login", "/auth/registeradmin");
+      List.of("/auth/register", "/auth/login", "/auth/registeradmin", "/countries/simple");
   public static final List<String> ADMIN_ENDPOINTS = List.of();
 
   private final JwtFilter jwtFilter;

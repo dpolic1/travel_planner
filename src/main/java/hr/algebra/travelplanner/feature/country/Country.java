@@ -11,12 +11,12 @@ import java.util.List;
 @Data
 public class Country {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-    private String name;
+  private String name;
 
-    @OneToMany(mappedBy = "country", fetch = FetchType.LAZY)
-    private List<City> cities;
+  @OneToMany(mappedBy = "country", fetch = FetchType.LAZY)
+  private List<City> cities;
 }

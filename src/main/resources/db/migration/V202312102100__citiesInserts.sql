@@ -1,0 +1,85 @@
+INSERT INTO cities (name, country_id)
+VALUES
+('Vienna', (SELECT id FROM countries WHERE name = 'Austria')),
+('Graz', (SELECT id FROM countries WHERE name = 'Austria')),
+('Linz', (SELECT id FROM countries WHERE name = 'Austria')),
+('Salzburg', (SELECT id FROM countries WHERE name = 'Austria')),
+('Innsbruck', (SELECT id FROM countries WHERE name = 'Austria')),
+
+('Brussels', (SELECT id FROM countries WHERE name = 'Belgium')),
+('Antwerp', (SELECT id FROM countries WHERE name = 'Belgium')),
+('Ghent', (SELECT id FROM countries WHERE name = 'Belgium')),
+('Bruges', (SELECT id FROM countries WHERE name = 'Belgium')),
+('Liege', (SELECT id FROM countries WHERE name = 'Belgium')),
+
+('Sarajevo', (SELECT id FROM countries WHERE name = 'Bosnia and Herzegovina')),
+('Banja Luka', (SELECT id FROM countries WHERE name = 'Bosnia and Herzegovina')),
+('Tuzla', (SELECT id FROM countries WHERE name = 'Bosnia and Herzegovina')),
+('Zenica', (SELECT id FROM countries WHERE name = 'Bosnia and Herzegovina')),
+('Mostar', (SELECT id FROM countries WHERE name = 'Bosnia and Herzegovina')),
+
+('Zagreb', (SELECT id FROM countries WHERE name = 'Croatia')),
+('Split', (SELECT id FROM countries WHERE name = 'Croatia')),
+('Rijeka', (SELECT id FROM countries WHERE name = 'Croatia')),
+('Osijek', (SELECT id FROM countries WHERE name = 'Croatia')),
+('Zadar', (SELECT id FROM countries WHERE name = 'Croatia')),
+
+('Nicosia', (SELECT id FROM countries WHERE name = 'Cyprus')),
+('Limassol', (SELECT id FROM countries WHERE name = 'Cyprus')),
+('Larnaca', (SELECT id FROM countries WHERE name = 'Cyprus')),
+('Paphos', (SELECT id FROM countries WHERE name = 'Cyprus')),
+('Famagusta', (SELECT id FROM countries WHERE name = 'Cyprus')),
+
+('Prague', (SELECT id FROM countries WHERE name = 'Czech Republic')),
+('Brno', (SELECT id FROM countries WHERE name = 'Czech Republic')),
+('Ostrava', (SELECT id FROM countries WHERE name = 'Czech Republic')),
+('Plzen', (SELECT id FROM countries WHERE name = 'Czech Republic')),
+('Liberec', (SELECT id FROM countries WHERE name = 'Czech Republic')),
+
+('Copenhagen', (SELECT id FROM countries WHERE name = 'Denmark')),
+('Aarhus', (SELECT id FROM countries WHERE name = 'Denmark')),
+('Odense', (SELECT id FROM countries WHERE name = 'Denmark')),
+('Aalborg', (SELECT id FROM countries WHERE name = 'Denmark')),
+('Esbjerg', (SELECT id FROM countries WHERE name = 'Denmark')),
+
+('Vaduz', (SELECT id FROM countries WHERE name = 'Liechtenstein')),
+('Schaan', (SELECT id FROM countries WHERE name = 'Liechtenstein')),
+('Triesenberg', (SELECT id FROM countries WHERE name = 'Liechtenstein')),
+('Balzers', (SELECT id FROM countries WHERE name = 'Liechtenstein')),
+('Eschen', (SELECT id FROM countries WHERE name = 'Liechtenstein')),
+
+('Vilnius', (SELECT id FROM countries WHERE name = 'Lithuania')),
+('Kaunas', (SELECT id FROM countries WHERE name = 'Lithuania')),
+('Klaipeda', (SELECT id FROM countries WHERE name = 'Lithuania')),
+('Šiauliai', (SELECT id FROM countries WHERE name = 'Lithuania')),
+('Panevėžys', (SELECT id FROM countries WHERE name = 'Lithuania')),
+
+('Luxembourg City', (SELECT id FROM countries WHERE name = 'Luxembourg')),
+('Esch-sur-Alzette', (SELECT id FROM countries WHERE name = 'Luxembourg')),
+('Differdange', (SELECT id FROM countries WHERE name = 'Luxembourg')),
+('Dudelange', (SELECT id FROM countries WHERE name = 'Luxembourg')),
+('Echternach', (SELECT id FROM countries WHERE name = 'Luxembourg')),
+
+('Valletta', (SELECT id FROM countries WHERE name = 'Malta')),
+('Mdina', (SELECT id FROM countries WHERE name = 'Malta')),
+('Victoria', (SELECT id FROM countries WHERE name = 'Malta')),
+('Birkirkara', (SELECT id FROM countries WHERE name = 'Malta')),
+('Qormi', (SELECT id FROM countries WHERE name = 'Malta')),
+
+('Amsterdam', (SELECT id FROM countries WHERE name = 'Netherlands')),
+('Rotterdam', (SELECT id FROM countries WHERE name = 'Netherlands')),
+('The Hague', (SELECT id FROM countries WHERE name = 'Netherlands')),
+('Utrecht', (SELECT id FROM countries WHERE name = 'Netherlands')),
+('Eindhoven', (SELECT id FROM countries WHERE name = 'Netherlands')),
+
+('Madrid', (SELECT id FROM countries WHERE name = 'Spain')),
+('Barcelona', (SELECT id FROM countries WHERE name = 'Spain')),
+('Valencia', (SELECT id FROM countries WHERE name = 'Spain')),
+('Seville', (SELECT id FROM countries WHERE name = 'Spain')),
+('Zaragoza', (SELECT id FROM countries WHERE name = 'Spain')),
+
+('London', (SELECT id FROM countries WHERE name = 'United Kingdom')),
+('Manchester', (SELECT id FROM countries WHERE name = 'United Kingdom')),
+('Birmingham', (SELECT id FROM countries WHERE name = 'United Kingdom')),
+('Glasgow', (SELECT id FROM countries WHERE name = 'United Kingdom')),
+('Liverpool', (SELECT id FROM countries WHERE name = 'United Kingdom'));

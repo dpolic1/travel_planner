@@ -1,7 +1,9 @@
 package hr.algebra.travelplanner.feature.city;
 
+import hr.algebra.travelplanner.feature.city.response.CitySimple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,9 +20,7 @@ public class CityController {
   }
 
   @GetMapping("/country/{countryId}")
-    public List<City> getAllCitiesByCountryId(Integer countryId) {
-        return cityService.getAllCitiesByCountryId(countryId);
-    }
-
-
+  public List<CitySimple> getAllCitiesByCountryId(@PathVariable Integer countryId) {
+    return cityService.getAllCitiesByCountryId(countryId);
+  }
 }

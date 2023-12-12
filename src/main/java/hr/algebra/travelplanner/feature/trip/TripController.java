@@ -4,8 +4,11 @@ import hr.algebra.travelplanner.authentication.jwt.JwtService;
 import hr.algebra.travelplanner.feature.customer.Customer;
 import hr.algebra.travelplanner.feature.trip.request.TripRequest;
 import hr.algebra.travelplanner.feature.trip.response.TripDetails;
+import hr.algebra.travelplanner.configuration.AuditorConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -14,6 +17,7 @@ import java.util.List;
 public class TripController {
   @Autowired private TripService tripService;
   @Autowired private JwtService jwtService;
+  @Autowired private AuditorConfig auditorConfig;
 
   @GetMapping()
   public List<Trip> getAllTrips() {
@@ -21,9 +25,12 @@ public class TripController {
   }
 
   @PostMapping()
-  public TripDetails create(
-      @RequestBody TripRequest tripRequest, @RequestHeader("Authorization") String bearerToken) {
-    Customer customer = jwtService.getCustomerFromJwt(bearerToken);
+  public TripDetails create(@RequestBody TripRequest tripRequest) {
+    Customer customer =
+        auditorConfig
+            .getCurrentAuditor()
+            .orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized"));
     return tripService.create(customer, tripRequest);
   }
 }
