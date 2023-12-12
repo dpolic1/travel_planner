@@ -31,7 +31,7 @@ public class Accommodation {
     RESORT
   }
 
-  private double price;
+  private Double price;
 
-  private double rating;
+  private Double rating;
 }

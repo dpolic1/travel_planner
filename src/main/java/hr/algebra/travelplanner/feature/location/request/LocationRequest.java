@@ -8,6 +8,6 @@ public class LocationRequest {
   private String name;
   private Integer cityId;
   private Integer specificLocationId;
-  private boolean paidAccommodation;
+  private Boolean paidAccommodation;
   private Integer accommodationId;
 }

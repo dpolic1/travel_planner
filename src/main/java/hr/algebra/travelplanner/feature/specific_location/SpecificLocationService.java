@@ -22,4 +22,8 @@ public class SpecificLocationService {
     return specificLocationMapper.mapToSpecificLocationSimpleList(
         specificLocationRepository.findAllByCountryId(countryId));
   }
+
+  public SpecificLocation findById(Integer id) {
+    return specificLocationRepository.findById(id).orElse(null);
+  }
 }

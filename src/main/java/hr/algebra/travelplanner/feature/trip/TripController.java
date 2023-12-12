@@ -33,4 +33,9 @@ public class TripController {
                 () -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized"));
     return tripService.create(customer, tripRequest);
   }
+
+  @PutMapping("/{id}")
+  public TripDetails update(@PathVariable Integer id, @RequestBody TripRequest tripRequest) {
+    return tripService.update(id, tripRequest);
+  }
 }

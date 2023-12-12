@@ -23,4 +23,8 @@ public class CountryService {
   public List<CountrySimple> getAllCountriesSimple() {
     return countryMapper.mapToCountrySimpleList(countryRepository.findAll());
   }
+
+  public Country findById(Integer id) {
+    return countryRepository.findById(id).orElse(null);
+  }
 }

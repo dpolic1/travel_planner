@@ -11,5 +11,5 @@ public class TripRequest {
   private String name;
   private LocalDate startDate;
   private LocalDate endDate;
-  private List<DestinationRequest> destinations;
+  private List<DestinationRequest> destinationRequests;
 }

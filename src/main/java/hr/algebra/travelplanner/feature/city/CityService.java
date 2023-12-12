@@ -22,4 +22,8 @@ public class CityService {
   public List<CitySimple> getAllCitiesByCountryId(Integer countryId) {
     return cityMapper.mapToCitySimpleList(cityRepository.findAllByCountryId(countryId));
   }
+
+  public City findById(Integer id) {
+    return cityRepository.findById(id).orElse(null);
+  }
 }
