@@ -20,7 +20,7 @@ public class TripController {
   @Autowired private AuditorConfig auditorConfig;
 
   @GetMapping()
-  public List<Trip> getAllTrips() {
+  public List<TripDetails> getAllTrips() {
     return tripService.getAllTrips();
   }
 
@@ -38,4 +38,9 @@ public class TripController {
   public TripDetails update(@PathVariable Integer id, @RequestBody TripRequest tripRequest) {
     return tripService.update(id, tripRequest);
   }
+
+  @DeleteMapping("/{id}")
+    public void delete(@PathVariable Integer id) {
+        tripService.delete(id);
+    }
 }

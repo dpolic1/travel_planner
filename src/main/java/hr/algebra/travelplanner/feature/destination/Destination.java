@@ -29,6 +29,6 @@ public class Destination {
   @JoinColumn(name = "country_id")
   private Country country;
 
-  @OneToMany(mappedBy = "destination", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "destination", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Location> locations;
 }

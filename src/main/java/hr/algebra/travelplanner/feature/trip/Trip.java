@@ -23,7 +23,7 @@ public class Trip {
 
   private LocalDate endDate;
 
-  @OneToMany(mappedBy = "trip", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "trip", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Destination> destinations;
 
   @ManyToOne

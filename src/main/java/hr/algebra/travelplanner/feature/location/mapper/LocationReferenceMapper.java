@@ -17,14 +17,17 @@ public class LocationReferenceMapper {
   AccommodationService accommodationService;
 
   public City mapToCity(Integer cityId) {
+    if(cityId == null) return null;
     return cityService.findById(cityId);
   }
 
   public SpecificLocation mapToSpecificLocation(Integer specificLocationId) {
+    if(specificLocationId == null) return null;
     return specificLocationService.findById(specificLocationId);
   }
 
   public Accommodation mapToAccommodation(Integer accommodationId) {
+    if(accommodationId == null) return null;
     return accommodationService.findById(accommodationId);
   }
 }

@@ -17,12 +17,13 @@ public class TripService {
   private final TripRepository tripRepository;
   private final TripMapper tripMapper;
 
-  public List<Trip> getAllTrips() {
-    return tripRepository.findAll();
+  public List<TripDetails> getAllTrips() {
+    return tripMapper.mapToTripDetailsList(tripRepository.findAll());
   }
 
   public TripDetails create(Customer customer, TripRequest tripRequest) {
     Trip trip = tripMapper.toEntity(tripRequest);
+    mapLocationsAndDestinationsToTrip(trip);
     trip.setCustomer(customer);
     return tripMapper.toDetails(tripRepository.save(trip));
   }
@@ -33,6 +34,20 @@ public class TripService {
             .findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Trip not found"));
     tripMapper.update(tripRequest, trip);
+    mapLocationsAndDestinationsToTrip(trip);
     return tripMapper.toDetails(tripRepository.save(trip));
+  }
+
+  private void mapLocationsAndDestinationsToTrip(Trip trip) {
+    trip.getDestinations()
+        .forEach(
+            destination -> {
+              destination.setTrip(trip);
+              destination.getLocations().forEach(location -> location.setDestination(destination));
+            });
+  }
+
+  public void delete(Integer id) {
+    tripRepository.deleteById(id);
   }
 }
