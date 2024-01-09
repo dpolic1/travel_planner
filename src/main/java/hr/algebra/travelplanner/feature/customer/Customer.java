@@ -27,7 +27,7 @@ public class Customer {
 
   private String password;
 
-  @OneToMany(mappedBy = "customer")
+  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Trip> trips;
 
   @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)

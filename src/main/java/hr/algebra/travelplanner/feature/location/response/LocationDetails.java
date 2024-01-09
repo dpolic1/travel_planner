@@ -8,8 +8,8 @@ public class LocationDetails {
 
   private Integer id;
   private String name;
-  private String cityName; // todo: add custom mapping method
-  private String specificLocationName; // todo: add custom mapping method
+  private String cityName;
+  private String specificLocationName;
   private boolean paidAccommodation;
   private AccommodationDetails accommodation; // todo: add custom mapping method
 }
