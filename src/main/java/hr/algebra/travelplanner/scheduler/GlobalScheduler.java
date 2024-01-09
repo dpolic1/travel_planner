@@ -19,12 +19,8 @@ public class GlobalScheduler {
     List<Customer> customers = customerRepository.findAllCustomersWithTrips();
 
     customers.forEach(
-        customer -> {
-          // Initialize the trips association for each customer
-          Hibernate.initialize(customer);
-
-          System.out.println(
-              customer.getUsername() + " has " + customer.getTrips().size() + " trips.");
-        });
+        customer ->
+            System.out.println(
+                customer.getUsername() + " has " + customer.getTrips().size() + " trips."));
   }
 }
