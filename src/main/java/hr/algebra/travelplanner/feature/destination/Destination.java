@@ -18,8 +18,6 @@ public class Destination {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  private String name;
-
   @ManyToOne
   @JoinColumn(name = "trip_id")
   @JsonIgnore

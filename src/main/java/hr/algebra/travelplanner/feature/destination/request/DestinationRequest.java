@@ -7,7 +7,6 @@ import java.util.List;
 
 @Data
 public class DestinationRequest {
-  private String name;
   private Integer countryId;
   private List<LocationRequest> locationRequests;
 }

@@ -34,10 +34,14 @@ public class AuthenticationService {
     if (!bCryptPasswordEncoder.matches(request.getPassword(), customer.getPassword())) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid password.");
     }
-    return new LoginResponse(jwtService.createJwt(customer));
+
+    Boolean isCustomerAdmin = customer.getRoles().contains(Role.ROLE_ADMIN);
+
+    return new LoginResponse(jwtService.createJwt(customer), isCustomerAdmin);
   }
 
   public void register(RegisterRequest request) {
+    //TODO: implement customer mapper
     try {
       Customer newCustomer = new Customer();
       newCustomer.setName(request.getName());
@@ -46,21 +50,9 @@ public class AuthenticationService {
       newCustomer.setEmail(request.getEmail());
       newCustomer.setPassword(new BCryptPasswordEncoder().encode(request.getPassword()));
       newCustomer.getRoles().add(Role.ROLE_USER);
-      customerRepository.save(newCustomer);
-    } catch (Exception e) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-    }
-  }
-
-  public void registerAdmin(RegisterRequest request) {
-    try {
-      Customer newCustomer = new Customer();
-      newCustomer.setName(request.getName());
-      newCustomer.setSurname(request.getSurname());
-      newCustomer.setUsername(request.getUsername());
-      newCustomer.setEmail(request.getEmail());
-      newCustomer.setPassword(new BCryptPasswordEncoder().encode(request.getPassword()));
-      newCustomer.getRoles().addAll(Set.of(Role.ROLE_USER, Role.ROLE_ADMIN));
+      if (request.getIsAdmin()) {
+        newCustomer.getRoles().add(Role.ROLE_ADMIN);
+      }
       customerRepository.save(newCustomer);
     } catch (Exception e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

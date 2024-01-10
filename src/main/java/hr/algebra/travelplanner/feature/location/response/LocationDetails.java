@@ -7,7 +7,6 @@ import lombok.Data;
 public class LocationDetails {
 
   private Integer id;
-  private String name;
   private String cityName;
   private String specificLocationName;
   private boolean paidAccommodation;

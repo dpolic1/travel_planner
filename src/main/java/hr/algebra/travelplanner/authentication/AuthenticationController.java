@@ -24,9 +24,4 @@ public class AuthenticationController {
   public void register(@RequestBody RegisterRequest registerRequest) {
     authenticationService.register(registerRequest);
   }
-
-  @PostMapping("/registeradmin")
-  public void registerAdmin(@RequestBody RegisterRequest registerRequest) {
-    authenticationService.registerAdmin(registerRequest);
-  }
 }

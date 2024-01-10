@@ -17,8 +17,6 @@ public class Location {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  private String name;
-
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "destination_id")
   @JsonIgnore

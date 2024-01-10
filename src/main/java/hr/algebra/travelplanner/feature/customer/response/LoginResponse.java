@@ -9,8 +9,10 @@ public class LoginResponse {
 
   private final String jwtToken;
 
+  private final Boolean isAdmin;
+
   @Override
   public String toString() {
-    return "LoginResponse{" + "jwtToken='" + jwtToken + '\'' + '}';
+    return "LoginResponse{" + "jwtToken='" + jwtToken + '\'' + ", isAdmin=" + isAdmin + '}';
   }
 }
