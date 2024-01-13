@@ -16,7 +16,6 @@ import java.util.List;
 @RequestMapping("/trips")
 public class TripController {
   @Autowired private TripService tripService;
-  @Autowired private JwtService jwtService;
   @Autowired private AuditorConfig auditorConfig;
 
   @GetMapping()
