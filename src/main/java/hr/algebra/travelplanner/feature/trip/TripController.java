@@ -23,6 +23,16 @@ public class TripController {
     return tripService.getAllTrips();
   }
 
+  @GetMapping("/my-trips")
+  public List<TripDetails> getAllUserTripsSimple(){
+    Customer customer =
+            auditorConfig
+                    .getCurrentAuditor()
+                    .orElseThrow(
+                            () -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized"));
+   return tripService.getAllUserTrips(customer.getId());
+  }
+
   @PostMapping()
   public TripDetails create(@RequestBody TripRequest tripRequest) {
     Customer customer =

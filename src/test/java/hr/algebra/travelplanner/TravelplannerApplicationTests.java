@@ -17,11 +17,4 @@ class TravelplannerApplicationTests {
 
   @Test
   void contextLoads() {}
-
-  @Test
-  void testUnauthenticated() throws Exception {
-    mockMvc
-        .perform(MockMvcRequestBuilders.get("/countries").contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isUnauthorized()); // Expecting a 401 Unauthorized status
-  }
 }

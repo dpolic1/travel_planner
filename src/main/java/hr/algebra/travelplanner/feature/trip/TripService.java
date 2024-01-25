@@ -21,6 +21,10 @@ public class TripService {
     return tripMapper.mapToTripDetailsList(tripRepository.findAll());
   }
 
+  public List<TripDetails> getAllUserTrips(Integer customerId){
+    return tripMapper.mapToTripDetailsList(tripRepository.findAllByCustomerId(customerId));
+  }
+
   public TripDetails create(Customer customer, TripRequest tripRequest) {
     Trip trip = tripMapper.toEntity(tripRequest);
     mapLocationsAndDestinationsToTrip(trip);

@@ -26,7 +26,7 @@ public class SecurityConfiguration {
 
   public static final List<String> UNAUTHENTICATED_ENDPOINTS =
       List.of("/auth/register", "/auth/login", "/auth/registeradmin", "/countries/simple");
-  public static final List<String> ADMIN_ENDPOINTS = List.of();
+  public static final List<String> ADMIN_ENDPOINTS = List.of(); //todo add all trips endpoint
 
   private final JwtFilter jwtFilter;
 
