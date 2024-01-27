@@ -1,0 +1,15 @@
+INSERT INTO countries (name) VALUES
+('Austria'),
+('Belgium'),
+('Bosnia and Herzegovina'),
+('Croatia'),
+('Cyprus'),
+('Czech Republic'),
+('Denmark'),
+('Liechtenstein'),
+('Lithuania'),
+('Luxembourg'),
+('Malta'),
+('Netherlands'),
+('Spain'),
+('United Kingdom');

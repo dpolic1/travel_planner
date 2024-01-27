@@ -18,8 +18,6 @@ public class Destination {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  private String name;
-
   @ManyToOne
   @JoinColumn(name = "trip_id")
   @JsonIgnore
@@ -29,6 +27,6 @@ public class Destination {
   @JoinColumn(name = "country_id")
   private Country country;
 
-  @OneToMany(mappedBy = "destination", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "destination", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Location> locations;
 }

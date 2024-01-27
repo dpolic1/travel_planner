@@ -1,24 +1,26 @@
 package hr.algebra.travelplanner.authentication;
 
+import hr.algebra.travelplanner.authentication.jwt.JwtService;
 import hr.algebra.travelplanner.feature.customer.Customer;
 import hr.algebra.travelplanner.feature.customer.CustomerRepository;
 import hr.algebra.travelplanner.feature.customer.request.LoginRequest;
 import hr.algebra.travelplanner.feature.customer.request.RegisterRequest;
 import hr.algebra.travelplanner.feature.customer.response.LoginResponse;
-import hr.algebra.travelplanner.feature.role.RoleRepository;
-import hr.algebra.travelplanner.authentication.jwt.JwtService;
+import hr.algebra.travelplanner.feature.customer.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
   private final CustomerRepository customerRepository;
-  private final RoleRepository roleRepository;
   private final JwtService jwtService;
+  private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
   public LoginResponse login(LoginRequest request) {
     Customer customer =
@@ -27,21 +29,19 @@ public class AuthenticationService {
             .orElseThrow(
                 () ->
                     new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST, "Customer with the given email does not exist"));
+                        HttpStatus.BAD_REQUEST, "Customer with the given username does not exist"));
 
-    if (!isMatchingPassword(request.getPassword(), customer.getPassword())) {
+    if (!bCryptPasswordEncoder.matches(request.getPassword(), customer.getPassword())) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid password.");
     }
 
-    return new LoginResponse(jwtService.createJwt(customer));
-  }
+    Boolean isCustomerAdmin = customer.getRoles().contains(Role.ROLE_ADMIN);
 
-  private boolean isMatchingPassword(String rawPassword, String encryptedPassword) {
-    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-    return bCryptPasswordEncoder.matches(rawPassword, encryptedPassword);
+    return new LoginResponse(jwtService.createJwt(customer), isCustomerAdmin);
   }
 
   public void register(RegisterRequest request) {
+    //TODO: implement customer mapper
     try {
       Customer newCustomer = new Customer();
       newCustomer.setName(request.getName());
@@ -49,7 +49,10 @@ public class AuthenticationService {
       newCustomer.setUsername(request.getUsername());
       newCustomer.setEmail(request.getEmail());
       newCustomer.setPassword(new BCryptPasswordEncoder().encode(request.getPassword()));
-      newCustomer.getRoles().add(roleRepository.findByName("ROLE_USER"));
+      newCustomer.getRoles().add(Role.ROLE_USER);
+      if (request.getIsAdmin()) {
+        newCustomer.getRoles().add(Role.ROLE_ADMIN);
+      }
       customerRepository.save(newCustomer);
     } catch (Exception e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

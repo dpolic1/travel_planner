@@ -16,4 +16,9 @@ public class AccommodationController {
   public List<Accommodation> getAllAccomodations() {
     return accommodationService.getAllAccomodations();
   }
+
+  @GetMapping("/city/{cityId}")
+  public List<Accommodation> findAccommodationsByCityId(Integer cityId) {
+    return accommodationService.findAccommodationsByCityId(cityId);
+  }
 }

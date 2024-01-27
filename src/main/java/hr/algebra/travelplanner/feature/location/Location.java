@@ -17,8 +17,6 @@ public class Location {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  private String name;
-
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "destination_id")
   @JsonIgnore
@@ -32,7 +30,7 @@ public class Location {
   @JoinColumn(name = "specific_location_id")
   private SpecificLocation specificLocation; // can be null
 
-  private boolean paidAccommodation;
+  private Boolean paidAccommodation;
 
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "accommodation_id")

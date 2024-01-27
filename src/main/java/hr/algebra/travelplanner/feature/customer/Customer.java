@@ -1,7 +1,5 @@
 package hr.algebra.travelplanner.feature.customer;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import hr.algebra.travelplanner.feature.role.Role;
 import hr.algebra.travelplanner.feature.trip.Trip;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -14,6 +12,7 @@ import java.util.Set;
 @Table(name = "customers")
 @Data
 public class Customer {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
@@ -28,14 +27,12 @@ public class Customer {
 
   private String password;
 
-  @OneToMany(mappedBy = "customer")
+  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Trip> trips;
 
-  @ManyToMany
-  @JsonIgnore
-  @JoinTable(
-      name = "customers_roles",
-      joinColumns = {@JoinColumn(name = "customer_id")},
-      inverseJoinColumns = {@JoinColumn(name = "role_id")})
+  @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+  @CollectionTable(name = "customers_roles", joinColumns = @JoinColumn(name = "customer_id"))
+  @Column(name = "role", nullable = false)
+  @Enumerated(EnumType.STRING)
   private Set<Role> roles = new HashSet<>();
 }

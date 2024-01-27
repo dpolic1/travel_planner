@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "accomodations")
+@Table(name = "accommodations")
 @Data
 public class Accommodation {
 
@@ -31,7 +31,7 @@ public class Accommodation {
     RESORT
   }
 
-  private double price;
+  private Double price;
 
-  private double rating;
+  private Double rating;
 }

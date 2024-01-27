@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
-  @Autowired private AuthenticationService customerService;
+  @Autowired private AuthenticationService authenticationService;
 
   @PostMapping("/login")
   public LoginResponse login(@RequestBody LoginRequest loginRequest) {
-    return customerService.login(loginRequest);
+    return authenticationService.login(loginRequest);
   }
 
   @PostMapping("/register")
   public void register(@RequestBody RegisterRequest registerRequest) {
-    customerService.register(registerRequest);
+    authenticationService.register(registerRequest);
   }
 }

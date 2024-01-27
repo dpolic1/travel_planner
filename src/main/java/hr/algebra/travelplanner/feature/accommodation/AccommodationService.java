@@ -15,4 +15,12 @@ public class AccommodationService {
   public List<Accommodation> getAllAccomodations() {
     return accommodationRepository.findAll();
   }
+
+  public List<Accommodation> findAccommodationsByCityId(Integer cityId) {
+    return accommodationRepository.findAccommodationsByCityId(cityId);
+  }
+
+  public Accommodation findById(Integer id) {
+    return accommodationRepository.findById(id).orElse(null);
+  }
 }

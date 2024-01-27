@@ -18,4 +18,24 @@ public class CustomerController {
   public List<Customer> getAllUsers() {
     return customerService.getAllUsers();
   }
+
+  @GetMapping("/{id}")
+  public Customer getUserById(@PathVariable Integer id) {
+    return customerService.getUserById(id);
+  }
+
+  @GetMapping("/currentuserid")
+  public Integer getCurrentUserId(@RequestHeader("Authorization") String token) {
+    return customerService.getCustomerIdFromToken(token);
+  }
+
+  @GetMapping("/currentuser")
+  public Customer getCurrentUser(@RequestHeader("Authorization") String token) {
+    return customerService.getCustomerDataFromToken(token);
+  }
+
+  @GetMapping("/currentuserroles")
+  public List<String> getCurrentUserRoles(@RequestHeader("Authorization") String token) {
+    return customerService.getCustomerRolesFromToken(token);
+  }
 }

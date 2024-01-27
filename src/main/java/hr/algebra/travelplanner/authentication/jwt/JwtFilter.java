@@ -1,6 +1,6 @@
 package hr.algebra.travelplanner.authentication.jwt;
 
-import hr.algebra.travelplanner.authentication.config.SecurityConfiguration;
+import hr.algebra.travelplanner.authentication.configuration.SecurityConfiguration;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,20 +35,15 @@ public class JwtFilter extends OncePerRequestFilter {
 
     if (!isEndpointAllowingUnauthenticatedAccess(request)) {
       String jwtToken = extractJwtToken(request);
-
-      System.out.println("JWT Token: " + jwtToken);
-
       log.trace("doFilter for endpoint: {} resolved jwt: {}", request.getRequestURI(), jwtToken);
 
       if (jwtToken != null
           && !jwtToken.isEmpty()) { // only validate token if it exists in the request
-
         boolean authenticate = jwtService.authenticate(jwtToken);
 
         if (!authenticate) {
           unauthorized(response);
         }
-
       } else { // no token, user is unauthorized
         unauthorized(response);
       }

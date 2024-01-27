@@ -1,5 +1,6 @@
 package hr.algebra.travelplanner.feature.city;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hr.algebra.travelplanner.feature.accommodation.Accommodation;
 import hr.algebra.travelplanner.feature.country.Country;
 import jakarta.persistence.*;
