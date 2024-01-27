@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 public class DestinationDetails {
     private Integer id;
+    private Integer countryId;
     private String countryName;
     private List<LocationDetails> locations;
 }

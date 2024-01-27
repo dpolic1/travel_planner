@@ -7,8 +7,8 @@ import lombok.Data;
 public class LocationDetails {
 
   private Integer id;
+  private Integer cityId;
   private String cityName;
+  private Integer specificLocationId;
   private String specificLocationName;
-  private boolean paidAccommodation;
-  private AccommodationDetails accommodation; // todo: add custom mapping method
 }

@@ -16,6 +16,7 @@ public interface DestinationMapper {
   @Mapping(target = "country", source = "countryId")
   Destination toEntity(DestinationRequest destinationRequest);
 
+  @Mapping(target = "countryId", source = "country.id")
   @Mapping(target = "countryName", source = "country.name")
   DestinationDetails toDetails(Destination destination);
 

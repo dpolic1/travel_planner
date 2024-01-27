@@ -21,7 +21,7 @@ public class TripService {
     return tripMapper.mapToTripDetailsList(tripRepository.findAll());
   }
 
-  public List<TripDetails> getAllUserTrips(Integer customerId){
+  public List<TripDetails> getAllUserTrips(Integer customerId) {
     return tripMapper.mapToTripDetailsList(tripRepository.findAllByCustomerId(customerId));
   }
 

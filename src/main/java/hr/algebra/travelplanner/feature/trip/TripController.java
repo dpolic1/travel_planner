@@ -24,13 +24,13 @@ public class TripController {
   }
 
   @GetMapping("/my-trips")
-  public List<TripDetails> getAllUserTripsSimple(){
+  public List<TripDetails> getAllUserTripsSimple() {
     Customer customer =
-            auditorConfig
-                    .getCurrentAuditor()
-                    .orElseThrow(
-                            () -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized"));
-   return tripService.getAllUserTrips(customer.getId());
+        auditorConfig
+            .getCurrentAuditor()
+            .orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized"));
+    return tripService.getAllUserTrips(customer.getId());
   }
 
   @PostMapping()
@@ -49,7 +49,7 @@ public class TripController {
   }
 
   @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
-        tripService.delete(id);
-    }
+  public void delete(@PathVariable Integer id) {
+    tripService.delete(id);
+  }
 }

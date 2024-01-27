@@ -17,7 +17,9 @@ public interface LocationMapper {
   @Mapping(target = "paidAccommodation", source = "paidAccommodation", defaultValue = "false")
   Location toEntity(LocationRequest locationRequest);
 
+  @Mapping(target = "cityId", source = "city.id")
   @Mapping(target = "cityName", source = "city.name")
+    @Mapping(target = "specificLocationId", source = "specificLocation.id")
   @Mapping(target = "specificLocationName", source = "specificLocation.name")
   LocationDetails toDetails(Location location);
 
