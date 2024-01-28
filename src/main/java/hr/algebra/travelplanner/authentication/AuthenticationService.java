@@ -58,4 +58,8 @@ public class AuthenticationService {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
     }
   }
+
+  public void logout(String token){
+    jwtService.invalidateToken(token);
+  }
 }

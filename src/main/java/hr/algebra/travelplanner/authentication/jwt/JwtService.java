@@ -15,9 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +30,8 @@ public class JwtService {
   private String secretKey;
 
   private final CustomerRepository customerRepository;
+
+  private Set<String> invalidatedTokens = new HashSet<>();
 
   public boolean authenticate(String token) {
     // If JWT is invalid, user can not be authenticated
@@ -61,6 +61,9 @@ public class JwtService {
 
   private boolean isJwtInvalid(String jwtToken) {
     try {
+      if(invalidatedTokens.contains(jwtToken)){
+        return true;
+      }
       Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
       return false;
     } catch (SignatureException e) {
@@ -117,5 +120,9 @@ public class JwtService {
     Authentication authentication =
         new UsernamePasswordAuthenticationToken(applicationUser, null, authorities);
     SecurityContextHolder.getContext().setAuthentication(authentication);
+  }
+
+  public void invalidateToken(String token){
+    invalidatedTokens.add(token);
   }
 }

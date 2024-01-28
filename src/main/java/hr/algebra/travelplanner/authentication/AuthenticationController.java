@@ -4,10 +4,7 @@ import hr.algebra.travelplanner.feature.customer.request.LoginRequest;
 import hr.algebra.travelplanner.feature.customer.request.RegisterRequest;
 import hr.algebra.travelplanner.feature.customer.response.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -23,5 +20,10 @@ public class AuthenticationController {
   @PostMapping("/register")
   public void register(@RequestBody RegisterRequest registerRequest) {
     authenticationService.register(registerRequest);
+  }
+
+  @GetMapping("/logout")
+  public void logout(@RequestHeader("Authorization") String bearer) {
+    authenticationService.logout(bearer.substring(7));
   }
 }
